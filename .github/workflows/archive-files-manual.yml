@@ -16,15 +16,30 @@ on:
         # Input has to be provided for the workflow to run
         required: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  remove-files:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      # Runs a single command using the runners shell
+      - uses: actions/checkout@v2
+        name: Check out repository
+        
+      - run: |
+          sed '/file[0-9]/d' index.json
+          ls files/file[0-9]* | xargs rm --
+        name: Archive files
+      
+      - uses: peter-evans/create-pull-request@v3.6.0
+        name: Create pull request
+        with:
+          base: main
+          title: "Post-release ${{ github.event.inputs.name }} clean-up"
+          
+# date > generated.txt
+# git config user.name github-actions
+# git config user.email github-actions@github.com
+# git add .
+# git commit -m "generated"
+# git push
