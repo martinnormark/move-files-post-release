@@ -27,8 +27,8 @@ jobs:
         name: Check out repository
         
       - run: |
-          sed '/file[0-9]/d' index.json
-          ls files/file[0-9]* | xargs rm --
+          sed '/test[0-9]/d' index.json
+          ls files/test[0-9]* | xargs rm --
         name: Archive files
       
       - uses: peter-evans/create-pull-request@v3.6.0
