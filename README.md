@@ -1,4 +1,4 @@
 # move-files-post-release
 Test action that moves specific files after a release.
 
-On release, files in `./files` dir will be moved into `./archived` and their paths in `./index.json` will be updated.
+When run, files in `./files` dir that starts with `file[0-9` will be removed and the lines in `./index.json` that contains the same pattern will be removed.
