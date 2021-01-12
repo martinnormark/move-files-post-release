@@ -8,11 +8,11 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
+      branch:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
+        description: 'Target branch'
         # Default value if no value is explicitly provided
-        default: 'World'
+        default: 'develop'
         # Input has to be provided for the workflow to run
         required: true
 
@@ -27,7 +27,7 @@ jobs:
         name: Check out repository
         
       - run: |
-          sed '/test[0-9]/d' index.json
+          sed -i '/test[0-9]/d' index.json
           ls files/test[0-9]* | xargs rm --
         name: Archive files
       
@@ -35,7 +35,7 @@ jobs:
         name: Create pull request
         with:
           base: main
-          title: "Post-release ${{ github.event.inputs.name }} clean-up"
+          title: "Post-release ${{ github.event.inputs.branch }} clean-up"
           
 # date > generated.txt
 # git config user.name github-actions
